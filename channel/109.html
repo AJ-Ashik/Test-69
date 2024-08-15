@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StreamHub Player</title>
+  <!-- Include Video.js CSS -->
+  <link href="https://vjs.zencdn.net/7.20.2/video-js.css" rel="stylesheet">
+  <!-- Include Quality Selector Plugin CSS -->
+  <link href="https://unpkg.com/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0e0e0e;
+      color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+    h1 {
+      margin: 0;
+      font-size: 2em;
+      letter-spacing: 2px;
+    }
+    #joinButton {
+      background-color: #ff416c;
+      border: none;
+      color: white;
+      padding: 13px 27px;
+      border-radius: 30px;
+      margin-top: 15px;
+      cursor: pointer;
+      font-size: .9em;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    #serverSelect {
+      background-color: #0088cc;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 20px;
+      margin-top: 10px;
+      cursor: pointer;
+      font-size: 1em;
+      margin: 5px;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    .video-container {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      height: 0;
+    }
+    .video-container .video-js {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .video-js .vjs-big-play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .button-container {
+      text-align: center;
+      margin: 10px 0;
+    }
+    .button-container button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>StreamHub Live</h1>
+    <button id="joinButton">Join Telegram</button>
+    <select id="serverSelect">
+      <option value="1" data-url="https://humsab.xyz/S_Ten5/index.m3u8">Server 1</option>
+     <!-- <option value="2" data-url="https://d75dqofg5kmfk.cloudfront.net/bpk-tv/Zoom/default/zoom.m3u8">Server 2</option> -->
+    </select>
+  </header>
+  <br><br><br><br>
+  <div class="video-container">
+    <video id="example-video" class="video-js vjs-default-skin" controls poster="https://astromedia.com.my/wp-content/uploads/2024/01/Zee-Cinema.png">
+      <source id="video-source" src="https://d1g8wgjurz8via.cloudfront.net/bpk-tv/Zeecinemahd1/default/zeecinemahd1.m3u8" type="application/x-mpegURL">
+    </video>
+  </div>
+
+  <!-- Include Video.js -->
+  <script src="https://vjs.zencdn.net/7.20.2/video.min.js"></script>
+  <!-- Include videojs-hls-quality-selector -->
+  <script src="https://unpkg.com/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js"></script>
+  <script>
+    // Initialize Video.js player
+    var player = videojs('example-video');
+
+    // Activate the quality selector plugin
+    player.hlsQualitySelector({
+      displayCurrentQuality: true,
+    });
+
+    // Buffering functionality
+    function bufferAndPlay() {
+      // Implement buffering and delay functionality if needed
+    }
+
+    // Event listener for the server selection dropdown
+    document.getElementById('serverSelect').addEventListener('change', function() {
+      var selectedOption = this.options[this.selectedIndex];
+      var newUrl = selectedOption.getAttribute('data-url');
+      player.src({ src: newUrl, type: 'application/x-mpegURL' });
+
+      // Optionally buffer and play the new source
+      bufferAndPlay();
+    });
+
+    // Buffer and play video on load (if needed)
+    player.ready(function() {
+      bufferAndPlay();
+    });
+
+    // Telegram link
+    document.getElementById('joinButton').addEventListener('click', function () {
+      window.location.href = 'https://t.me/+s31Q__fl8zUxM2Nl';
+    });
+  </script>
+</body>
+</html>
