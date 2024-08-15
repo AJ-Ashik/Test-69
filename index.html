@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamHub - Live</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0e0e0e;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2em;
+            letter-spacing: 2px;
+        }
+
+        #joinButton {
+            background-color: #ff416c;
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 40px;
+            margin-top: 20px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        #joinButton:hover {
+            background-color: #ff4b2b;
+            transform: scale(1.05);
+        }
+
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        #searchInput {
+            width: 70%;
+            padding: 15px;
+            border-radius: 50px 0 0 50px;
+            border: none;
+            font-size: 1em;
+            background-color: #2e2e2e;
+            color: #ffffff;
+        }
+
+        #searchButton {
+            padding: 15px 30px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 0 50px 50px 0;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        #searchButton:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        .filter-dropdown {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        #categoryFilter {
+            padding: 15px;
+            border-radius: 50px;
+            border: none;
+            font-size: 1em;
+            background-color: #2e2e2e;
+            color: #ffffff;
+        }
+
+        .channel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .channel-item {
+            background-color: #1f1f1f;
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .channel-item:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .channel-item img {
+            width: 100px;
+            height: 100px;
+            border-radius: 20%;
+        }
+
+        .channel-item p {
+            margin: 15px 0 0;
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 768px) {
+            #searchInput {
+                width: 60%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #searchInput {
+                width: 50%;
+            }
+
+            .channel-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>StreamHub Live</h1>
+        <button id="joinButton">Join Our Telegram</button>
+    </header>
+
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search for channels...">
+        <button id="searchButton">Search</button>
+    </div>
+
+    <div class="filter-dropdown">
+        <select id="categoryFilter">
+            <option value="all">All Categories</option>
+            <option value="news">News</option>
+            <option value="sports">Sports</option>
+            <option value="entertainment">Entertainment</option>
+            <option value="kids">Kids</option>
+            <option value="international">International</option>
+            <option value="music">Music</option>
+        </select>
+    </div>
+
+    <div id="channelGrid" class="channel-grid">
+        <div class="channel-item" data-categories="sports" onclick="goToChannel(101)">
+            <img src="https://www.worldcall.net.pk/images/channels_list/Star_Sports_HD_1.jpg" alt="Star Sports 1 HD">
+            <p>Star Sports 1 HD</p>
+        </div>
+        <div class="channel-item" data-categories="sports" onclick="goToChannel(102)">
+            <img src="https://raw.githubusercontent.com/subirkumarpaul/Logo/56e54462053b1b278b80b532c89c01f17e360fd5/Sony%20Sports%20Ten%205.png" alt="Sony Sports 5 HD">
+            <p>Sony Sports 5 HD</p>
+        </div>
+        <div class="channel-item" data-categories="news" onclick="goToChannel(103)">
+            <img src="https://image.pixahunt.com/graphics/long/Pixahunt-9f8f172776a1a08367297e7d525d44d8.webp" alt="Somoy TV">
+            <p>Somoy TV</p>
+        </div>
+        <div class="channel-item" data-categories="news" onclick="goToChannel(104)">
+            <img src="https://image.pixahunt.com/graphics/medium/Pixahunt-089fde550d0509374a9e4bcd1cee3b4c.webp" alt="Jamuna TV">
+            <p>Jamuna TV</p>
+        </div>
+        <div class="channel-item" data-categories="news, international" onclick="goToChannel(105)">
+            <img src="https://1000logos.net/wp-content/uploads/2023/01/Al-Jazeera-Logo-768x432.png" alt="Al Jazeera HD">
+            <p>Al Jazeera HD</p>
+        </div>
+        <div class="channel-item" data-categories="news, international" onclick="goToChannel(106)">
+            <img src="https://i.ibb.co/whc9vkT/download-5.png" alt="Fox News (AU)">
+            <p>Fox News (AU)</p>
+        </div>
+        <div class="channel-item" data-categories="music" onclick="goToChannel(107)">
+            <img src="https://raw.githubusercontent.com/subirkumarpaul/Logo/main/ZOOM.png" alt="Zoom">
+            <p>Zoom</p>
+        </div>
+        <div class="channel-item" data-categories="music" onclick="goToChannel(108)">
+            <img src="https://raw.githubusercontent.com/subirkumarpaul/Logo/main/9xm.png" alt="9XM">
+            <p>9XM</p>
+        </div>
+        <!-- Add more channels as needed -->
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById("searchInput");
+            const searchButton = document.getElementById("searchButton");
+            const categoryFilter = document.getElementById("categoryFilter");
+            const joinButton = document.getElementById("joinButton");
+
+            function myFunction() {
+                const filter = searchInput.value.toUpperCase();
+                const channelGrid = document.getElementById("channelGrid");
+                const items = channelGrid.getElementsByClassName("channel-item");
+
+                Array.from(items).forEach(item => {
+                    const txtValue = item.textContent || item.innerText;
+                    item.style.display = txtValue.toUpperCase().includes(filter) ? "" : "none";
+                });
+            }
+
+            searchButton.addEventListener('click', myFunction);
+            searchInput.addEventListener('keyup', myFunction);
+
+            categoryFilter.addEventListener('change', (e) => {
+                const category = e.target.value.toLowerCase();
+                const items = document.querySelectorAll('.channel-item');
+
+                items.forEach(item => {
+                    const itemCategories = item.getAttribute('data-categories') || '';
+                    item.style.display = category === 'all' || itemCategories.toLowerCase().includes(category) ? '' : 'none';
+                });
+            });
+
+            joinButton.addEventListener('click', function () {
+                window.location.href = 'https://t.me/+s31Q__fl8zUxM2Nl'; // Replace with your desired URL
+            });
+        });
+
+        function goToChannel(channelId) {
+            window.location.href = `channel/${channelId}.html`;
+        }
+    </script>
+</body>
+
+</html>
