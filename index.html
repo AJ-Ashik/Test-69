@@ -5,27 +5,103 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StreamHub - Live</title>
-    <meta property="og:site_name" content="StreamHub">
-    	<meta property="og:title" content="StreamHub - Live">
-    	<meta property="og:description" content="StreamHub - Live Channel This web is that allows you to watch tv channels. Watch Online Live channels exclusively on StreamHub Live." />
-    <meta name="author" content="StreamHub Online Live TV">
-    <meta name="robots" content="index, follow">
-    <meta name="description" content="StreamHub - Live Channel This web is that allows you to watch tv channels. Watch Online Live channels exclusively on StreamHub Live.">
-    	<meta name="keywords" content="bdixlive, bdixtv, bdixftp, ftp, bdtv, bdixlivetvdownload, bdixliveapk, bangladeshinews, StreamHub Live, streamhub">
-    	<meta property="og:url" content="www.streamhublive.vercel.app/index.html">
-    <meta property="og:image" content="https://raw.githubusercontent.com/AJ-Ashik/API2/main/Colorful%20Abstract%20Illustrative%20Gradient%20Stream%20Studio%20Logo_20240803_030057_0000.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="https://raw.githubusercontent.com/AJ-Ashik/API2/main/Colorful%20Abstract%20Illustrative%20Gradient%20Stream%20Studio%20Logo_20240803_030057_0000.png">
-    <meta name="google-site-verification" content="SK2Xcy8beAGsIpAybzu4JkzNWQpLkSvKTu0jBOVIQgI" />
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-SG2MHC9K1T"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-SG2MHC9K1T');
-</script>
+    <!-- Import Firebase App and Database -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAl5w8Ft-rkvdBqj-1lIwDBxILISedfzPw",
+            authDomain: "streamhub-database.firebaseapp.com",
+            databaseURL: "https://streamhub-database-default-rtdb.firebaseio.com",
+            projectId: "streamhub-database",
+            storageBucket: "streamhub-database.appspot.com",
+            messagingSenderId: "802789859381",
+            appId: "1:802789859381:web:419c6c7de1b12b6dd0517c",
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const channelGrid = document.getElementById("channelGrid");
+
+            // Fetch channels from Firebase
+            const channelsRef = ref(database, 'channels/');
+            get(channelsRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    snapshot.forEach((childSnapshot) => {
+                        const channelData = childSnapshot.val();
+                        const channelId = childSnapshot.key;
+
+                        const channelItem = document.createElement("div");
+                        channelItem.className = "channel-item";
+                        channelItem.setAttribute("data-categories", channelData.categories);
+                        channelItem.onclick = () => goToChannel(channelId);
+
+                        const channelImage = document.createElement("img");
+                        channelImage.src = channelData.image;
+                        channelImage.alt = channelData.name;
+
+                        const channelName = document.createElement("p");
+                        channelName.textContent = channelData.name;
+
+                        channelItem.appendChild(channelImage);
+                        channelItem.appendChild(channelName);
+                        channelGrid.appendChild(channelItem);
+                    });
+                } else {
+                    console.log("No data available");
+                }
+            }).catch((error) => {
+                console.error("Error fetching channels: ", error);
+            });
+
+            // Existing search and filter functionality
+            const searchInput = document.getElementById("searchInput");
+            const searchButton = document.getElementById("searchButton");
+            const categoryFilter = document.getElementById("categoryFilter");
+            const joinButton = document.getElementById("joinButton");
+
+            function myFunction() {
+                const filter = searchInput.value.toUpperCase();
+                const items = channelGrid.getElementsByClassName("channel-item");
+
+                Array.from(items).forEach(item => {
+                    const txtValue = item.textContent || item.innerText;
+                    item.style.display = txtValue.toUpperCase().includes(filter) ? "" : "none";
+                });
+            }
+
+            searchButton.addEventListener('click', myFunction);
+            searchInput.addEventListener('keyup', myFunction);
+
+            categoryFilter.addEventListener('change', (e) => {
+                const category = e.target.value.toLowerCase();
+                const items = document.querySelectorAll('.channel-item');
+
+                items.forEach(item => {
+                    const itemCategories = item.getAttribute('data-categories') || '';
+                    item.style.display = category === 'all' || itemCategories.toLowerCase().includes(category) ? '' : 'none';
+                });
+            });
+
+            joinButton.addEventListener('click', function () {
+                window.location.href = 'https://t.me/+s31Q__fl8zUxM2Nl'; // Replace with your desired URL
+            });
+        });
+
+        function goToChannel(channelId) {
+            window.location.href = `channel/${channelId}.html`;
+        }
+    </script>
+
     <style>
+        /* Your existing styles remain the same */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #0e0e0e;
@@ -185,105 +261,7 @@
         </select>
     </div>
 
-    <div id="channelGrid" class="channel-grid">
-        <div class="channel-item" data-categories="sports" onclick="goToChannel(101)">
-            <img src="https://www.worldcall.net.pk/images/channels_list/Star_Sports_HD_1.jpg" alt="Star Sports 1 HD">
-            <p>Star Sports 1 HD</p>
-        </div>
-        <div class="channel-item" data-categories="sports" onclick="goToChannel(102)">
-            <img src="https://raw.githubusercontent.com/subirkumarpaul/Logo/56e54462053b1b278b80b532c89c01f17e360fd5/Sony%20Sports%20Ten%205.png" alt="Sony Sports 5 HD">
-            <p>Sony Sports 5 HD</p>
-        </div>
-        <div class="channel-item" data-categories="news" onclick="goToChannel(103)">
-            <img src="https://image.pixahunt.com/graphics/long/Pixahunt-9f8f172776a1a08367297e7d525d44d8.webp" alt="Somoy TV">
-            <p>Somoy TV</p>
-        </div>
-        <div class="channel-item" data-categories="news" onclick="goToChannel(104)">
-            <img src="https://image.pixahunt.com/graphics/medium/Pixahunt-089fde550d0509374a9e4bcd1cee3b4c.webp" alt="Jamuna TV">
-            <p>Jamuna TV</p>
-        </div>
-        <div class="channel-item" data-categories="news, international" onclick="goToChannel(105)">
-            <img src="https://1000logos.net/wp-content/uploads/2023/01/Al-Jazeera-Logo-768x432.png" alt="Al Jazeera HD">
-            <p>Al Jazeera HD</p>
-        </div>
-        <div class="channel-item" data-categories="news, international" onclick="goToChannel(106)">
-            <img src="https://i.ibb.co/whc9vkT/download-5.png" alt="Fox News (AU)">
-            <p>Fox News (AU)</p>
-        </div>
-        <div class="channel-item" data-categories="music" onclick="goToChannel(107)">
-            <img src="https://raw.githubusercontent.com/subirkumarpaul/Logo/main/ZOOM.png" alt="Zoom">
-            <p>Zoom</p>
-        </div>
-        <div class="channel-item" data-categories="music" onclick="goToChannel(108)">
-            <img src="https://raw.githubusercontent.com/subirkumarpaul/Logo/main/9xm.png" alt="9XM">
-            <p>9XM</p>
-        </div>
-        <div class="channel-item" data-categories="entertainment" onclick="goToChannel(109)">
-            <img src="https://astromedia.com.my/wp-content/uploads/2024/01/Zee-Cinema.png" alt="Zee Cinema HD">
-            <p>Zee Cinema HD</p>
-        </div>
-        <div class="channel-item" data-categories="entertainment" onclick="goToChannel(110)">
-            <img src="https://www.adgully.com/img/400/201810/zee-bangla-logo.jpg" alt="Zee Bangla HD">
-            <p>Zee Bangla HD</p>
-        </div>
-        <div class="channel-item" data-categories="information" onclick="goToChannel(111)">
-            <img src="https://www.graphicdesignforum.com/uploads/default/original/2X/8/81beb1bdba7694e1a1accda62224d640906e27a4.jpeg" alt="Discovery">
-            <p>Discovery</p>
-        </div>
-        <div class="channel-item" data-categories="kids" onclick="goToChannel(112)">
-            <img src="https://whatthelogo.com/storage/logos/pogo-182947.webp" alt="Pogo">
-            <p>Pogo</p>
-        </div>
-        <div class="channel-item" data-categories="kids" onclick="goToChannel(113)">
-            <img src="https://1000logos.net/wp-content/uploads/2021/05/Cartoon-Network-logo-768x432.png" alt="Cartoon Network">
-            <p>Cartoon Network</p>
-        </div>
-        <div class="channel-item" data-categories="entertainment" onclick="goToChannel(114)">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Star_Jalsha_logo_2023.png" alt="Star Jalsha HD">
-            <p>Star Jalsha HD</p>
-        </div>
-        <!-- Add more channels as needed -->
-    </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const searchInput = document.getElementById("searchInput");
-            const searchButton = document.getElementById("searchButton");
-            const categoryFilter = document.getElementById("categoryFilter");
-            const joinButton = document.getElementById("joinButton");
+    <div id="channelGrid" class="channel-grid"></div>
 
-            function myFunction() {
-                const filter = searchInput.value.toUpperCase();
-                const channelGrid = document.getElementById("channelGrid");
-                const items = channelGrid.getElementsByClassName("channel-item");
-
-                Array.from(items).forEach(item => {
-                    const txtValue = item.textContent || item.innerText;
-                    item.style.display = txtValue.toUpperCase().includes(filter) ? "" : "none";
-                });
-            }
-
-            searchButton.addEventListener('click', myFunction);
-            searchInput.addEventListener('keyup', myFunction);
-
-            categoryFilter.addEventListener('change', (e) => {
-                const category = e.target.value.toLowerCase();
-                const items = document.querySelectorAll('.channel-item');
-
-                items.forEach(item => {
-                    const itemCategories = item.getAttribute('data-categories') || '';
-                    item.style.display = category === 'all' || itemCategories.toLowerCase().includes(category) ? '' : 'none';
-                });
-            });
-
-            joinButton.addEventListener('click', function () {
-                window.location.href = 'https://t.me/+s31Q__fl8zUxM2Nl'; // Replace with your desired URL
-            });
-        });
-
-        function goToChannel(channelId) {
-            window.location.href = `channel/${channelId}.html`;
-        }
-    </script>
 </body>
-
 </html>
